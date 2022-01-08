@@ -1,0 +1,8 @@
+.keyWrap {
+  display: flex;
+  flex-direction: row;
+  .letter {
+    border: 1px solid black;
+    padding: 5px;
+  }
+}
