@@ -47,7 +47,6 @@ function App() {
       <div className={s.container}>
         <Routes>
           <Route path="/" element={<StartScreen />} />
-
           <Route path="/eng" element={<Keyboard letters={engLetters} />} />
           <Route path="/rus" element={<Keyboard letters={rusLetters} />} />
         </Routes>
