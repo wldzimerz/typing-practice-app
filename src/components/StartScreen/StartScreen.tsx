@@ -6,7 +6,7 @@ import s from './StartScreen.module.scss';
 const StartScreen = () => {
   const navigate = useNavigate();
 
-  function handleSubmitLanguage(values) {
+  function handleSubmitLanguage(values: { lang: string }) {
     switch (values.lang) {
       case 'English':
         return navigate('/eng');
@@ -33,9 +33,9 @@ const StartScreen = () => {
             <div id="my-radio-group">Select language</div>
             <div role="group" aria-labelledby="my-radio-group" className={s.languages}>
               <Field type="radio" name="lang" id="eng" value="English" />
-              <label for="eng">English</label>
+              <label htmlFor="eng">English</label>
               <Field type="radio" name="lang" id="rus" value="Russian" />
-              <label for="rus">Russian</label>
+              <label htmlFor="rus">Russian</label>
               <div>Picked: {values.lang}</div>
             </div>
 
