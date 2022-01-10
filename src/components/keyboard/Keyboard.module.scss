@@ -6,7 +6,15 @@
     justify-content: space-between;
     .homeBtn {
       text-transform: uppercase;
-      width: 20px;
+      user-select: none;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .newStringBtn {
+      text-transform: uppercase;
+      user-select: none;
       cursor: pointer;
       &:hover {
         text-decoration: underline;
@@ -16,6 +24,16 @@
       font-family: 'Sanchez', serif;
       font-size: 1.5em;
       margin: 0 auto;
+    }
+  }
+  .themeChangeBtn {
+    text-transform: uppercase;
+    user-select: none;
+    cursor: pointer;
+    margin: 15px 0 0 0;
+    float: right;
+    &:hover {
+      text-decoration: underline;
     }
   }
 }
@@ -41,6 +59,7 @@
     user-select: none;
     font-family: 'Sanchez', serif;
     padding: 0 8px;
+    text-align: center;
   }
   .keyboard {
     display: flex;

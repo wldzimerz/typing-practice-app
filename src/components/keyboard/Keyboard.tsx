@@ -1,5 +1,8 @@
-import { ProfilerProps, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { enteredString, setTypeString, setEnteredString, typeString } from '../../store/typeStringSlice';
+import { getRandomWord } from '../../services/random-words-generator';
 
 import Key from '../key/Key';
 
@@ -10,33 +13,27 @@ type Props = {
 };
 
 const Keyboard = ({ letters }: Props) => {
-  let [minutes, setMinutes] = useState(1);
-  let [seconds, setSeconds] = useState(59);
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const dispatch = useAppDispatch();
+  const typeStringState = useAppSelector(typeString);
+  const enteredStringState = useAppSelector(enteredString);
 
   useEffect(() => {
-    // startTyping();
-  });
+    dispatch(setTypeString(getRandomWord(10)));
+  }, []);
 
   function handleClickHome() {
     navigate('/');
   }
 
-  // function startTyping() {
-  //   const timer_id = setInterval(() => {
-  //     if (seconds !== 0) {
-  //       setSeconds(--seconds);
-  //     } else if (seconds < 1) {
-  //       setSeconds(59);
-  //     } else if (seconds === 59 && minutes > 0) {
-  //       setMinutes(0);
-  //     } else if (minutes === 0 && seconds === 0) {
-  //       clearInterval(timer_id);
-  //       alert('stop');
-  //     }
-  //   }, 1000);
-  // }
+  function handleChangeValue(value: string) {
+    const symbol = value.slice(-1);
+    dispatch(setEnteredString(symbol));
+  }
+
+  function handleGetNewString() {
+    dispatch(setTypeString(getRandomWord(10)));
+  }
 
   return (
     <div className={s.container}>
@@ -44,17 +41,20 @@ const Keyboard = ({ letters }: Props) => {
         <div className={s.homeBtn} onClick={handleClickHome}>
           Home
         </div>
+        <div className={s.newStringBtn} onClick={handleGetNewString}>
+          Get new string
+        </div>
         {/* <div className={s.timer}>{`0${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</div> */}
       </div>
       <div className={s.keyboardWrapper}>
-        <input className={s.mainInput} />
-        <div className={s.typeString}> {pathname === '/rus' ? 'строка строка строка строка строка' : 'string string string string string'} </div>
+        <input className={s.mainInput} onChange={(e) => handleChangeValue(e.target.value)} />
+        <div className={s.typeString}> {typeStringState.join(' ')} </div>
         <div className={s.keyboard}>
           {letters.map((value, index) => {
             return <Key letter={value} key={index} />;
           })}
         </div>
-        <div className={s.themeChangr}>Light theme</div>
+        <div className={s.themeChangeBtn}>{'Light theme'}</div>
       </div>
     </div>
   );
