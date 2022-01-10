@@ -19,12 +19,15 @@ export const typeStringSlice = createSlice({
       state.value = action.payload;
     },
     setEnteredString: (state, action: PayloadAction<string>) => {
-      state.enteredStringValue += action.payload;
+      state.enteredStringValue = `${state.enteredStringValue}${action.payload}`;
+    },
+    resetEnteredString: (state) => {
+      state.enteredStringValue = '';
     },
   },
 });
 
-export const { setTypeString, setEnteredString } = typeStringSlice.actions;
+export const { setTypeString, setEnteredString, resetEnteredString } = typeStringSlice.actions;
 
 export const typeString = (state: RootState) => state.typeString.value;
 export const enteredString = (state: RootState) => state.typeString.enteredStringValue;

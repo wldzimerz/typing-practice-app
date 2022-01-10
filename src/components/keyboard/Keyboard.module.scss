@@ -26,14 +26,25 @@
       margin: 0 auto;
     }
   }
-  .themeChangeBtn {
-    text-transform: uppercase;
-    user-select: none;
-    cursor: pointer;
+
+  .foot {
+    display: flex;
+    justify-content: space-between;
     margin: 15px 0 0 0;
-    float: right;
-    &:hover {
-      text-decoration: underline;
+    .mistakeCountGood {
+      color: #28b9b5;
+    }
+    .mistakeCountPoor {
+      color: #ff5049;
+    }
+    .themeChangeBtn {
+      text-transform: lowercase;
+      user-select: none;
+      cursor: pointer;
+      float: right;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }
