@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './index';
 
 interface typeStringState {
-  value: string[];
+  value: string | undefined;
   enteredStringValue: string;
 }
 
 const initialState: typeStringState = {
-  value: ['initial', 'value'],
+  value: 'initial value',
   enteredStringValue: '',
 };
 
@@ -15,7 +15,7 @@ export const typeStringSlice = createSlice({
   name: 'typeString',
   initialState,
   reducers: {
-    setTypeString: (state, action: PayloadAction<string[]>) => {
+    setTypeString: (state, action: PayloadAction<string | undefined>) => {
       state.value = action.payload;
     },
     setEnteredString: (state, action: PayloadAction<string>) => {

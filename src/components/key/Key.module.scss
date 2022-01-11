@@ -5,15 +5,20 @@
   justify-content: center;
   box-shadow: 0px 10px 20px #00000033;
   color: #30353e;
+  background: #cdcdcd;
+  border: 2px solid #eaeaea;
+  border-radius: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  width: 90px;
+  height: 90px;
   .letter {
-    background: #cdcdcd;
-    border: 2px solid #eaeaea;
-    border-radius: 10px;
-    box-sizing: border-box;
-    text-align: center;
     margin: 0;
-    width: 90px;
-    height: 90px;
     text-transform: uppercase;
   }
+}
+
+.active {
+  background: #ffce58cc;
+  transition: all 0.1s ease-in;
 }
