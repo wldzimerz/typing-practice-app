@@ -1,80 +1,71 @@
-.container {
-  margin: 25px auto;
-  width: 95vw;
-  .head {
-    display: flex;
-    justify-content: space-between;
-    .homeBtn {
-      text-transform: uppercase;
-      user-select: none;
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    .newStringBtn {
-      text-transform: uppercase;
-      user-select: none;
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    .timer {
-      font-family: 'Sanchez', serif;
-      font-size: 1.5em;
-      margin: 0 auto;
-    }
-  }
-
-  .foot {
-    display: flex;
-    justify-content: space-between;
-    margin: 15px 0 0 0;
-    .mistakeCountGood {
-      color: #28b9b5;
-    }
-    .mistakeCountPoor {
-      color: #ff5049;
-    }
-    .themeChangeBtn {
-      text-transform: lowercase;
-      user-select: none;
-      cursor: pointer;
-      float: right;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
+.keyboard {
+  width: 100%;
+  max-width: 1085px;
+  padding: 20px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(30, 30px);
+  grid-template-rows: repeat(5, 60px);
+  gap: 5px;
+  margin: 10px auto 40px;
 }
 
-.keyboardWrapper {
-  margin: 20px auto 0;
-  box-sizing: border-box;
-  .mainInput {
-    background: #f2f2f233;
-    outline: none;
-    border: 2px solid #ededed;
-    font-size: 1em;
-    padding: 3px 10px;
-    color: #fff;
-    border-radius: 10px;
-    width: 100%;
-    box-sizing: border-box;
-    box-shadow: 0px 10px 20px #00000033;
-    font-family: 'Sanchez', serif;
-  }
-  .typeString {
-    margin: 45px 0 70px;
-    user-select: none;
-    font-family: 'Sanchez', serif;
-    padding: 0 8px;
-    text-align: center;
-  }
-  .keyboard {
-    display: flex;
-    margin: 10px auto 0;
-    flex-wrap: wrap;
-  }
+.key {
+  background: #cdcdcd;
+  border: 2px solid #eaeaea;
+  border-radius: 5px;
+  grid-column: span 2;
+  text-transform: uppercase;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 17px;
+  color: #30353e;
+  box-shadow: 0px 10px 20px #00000033;
+}
+
+.delete {
+  grid-column: span 4;
+}
+
+.tab {
+  grid-column: span 3;
+}
+
+.backslash {
+  grid-column: span 3;
+}
+
+.capslock {
+  grid-column: span 4;
+}
+
+.return {
+  grid-column: span 4;
+}
+
+.leftshift {
+  grid-column: span 5;
+}
+
+.rightshift {
+  grid-column: span 5;
+}
+
+.leftctrl {
+  grid-column: span 3;
+}
+
+.command {
+  grid-column: span 3;
+  font-size: 14px;
+  padding-top: 20px;
+}
+
+.space {
+  grid-column: span 13;
+}
+
+.active {
+  background: #ffce58cc;
+  transition: all 0.1s ease-in;
 }

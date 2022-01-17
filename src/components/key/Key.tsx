@@ -4,12 +4,12 @@ import s from './Key.module.scss';
 
 type Props = {
   letter: string;
-  activeLetter: string;
+  activeSymbol: string;
 };
 
-const Key = ({ letter, activeLetter }: Props) => {
+const Key = ({ letter, activeSymbol }: Props) => {
   return (
-    <div className={cn(s.keyWrap, { [s.active]: letter === activeLetter })}>
+    <div className={cn(s.keyWrap, { [s.active]: letter === activeSymbol })}>
       <div className={s.letter}>{letter}</div>
     </div>
   );

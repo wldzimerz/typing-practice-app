@@ -1,90 +1,118 @@
-import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import cn from 'classnames';
-import { getRandomLocalizedWords } from '../../services/faker-words';
-import { enteredString, setTypeString, setEnteredString, typeString, resetEnteredString } from '../../store/typeStringSlice';
-
-import Key from '../key/Key';
-
 import s from './Keyboard.module.scss';
+import cn from 'classnames';
+
+const engLetters = [
+  ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']'],
+  ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'"],
+  ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '?'],
+];
+const rusLetters = [
+  ['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ'],
+  ['ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э'],
+  ['я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ','],
+];
+const numbers = [
+  ['~', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '+'],
+  ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '+'],
+];
 
 type Props = {
-  letters: readonly string[];
+  path: string;
+  symbol: string;
 };
 
-const Keyboard = ({ letters }: Props) => {
-  let [symbolCount, setSymbolCount] = useState(0);
-  let [mistakeCount, setMistakeCount] = useState(0);
-
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const dispatch = useAppDispatch();
-  const typeStringState = useAppSelector(typeString);
-  const enteredStringState = useAppSelector(enteredString);
-  const mainInput = useRef<HTMLInputElement>(null);
-
-  let activeSymbol: string;
-  if (typeStringState) activeSymbol = typeStringState[symbolCount];
-
-  useEffect(() => {
-    dispatch(setTypeString(getRandomLocalizedWords(pathname, 8)));
-  }, [pathname, dispatch]);
-
-  function handleClickHome() {
-    navigate('/');
-  }
-
-  function handleChangeValue(value: string) {
-    const symbol = value.slice(-1);
-
-    if (symbol === activeSymbol) {
-      dispatch(setEnteredString(symbol));
-      setSymbolCount((prevState) => ++prevState);
-    } else if (typeStringState && enteredStringState.length === typeStringState.length) {
-      alert(`Stop typing! You made ${mistakeCount} mistakes`);
-      handleGetNewString();
-    } else {
-      setMistakeCount((prevState) => ++prevState);
-    }
-  }
-
-  function handleGetNewString() {
-    dispatch(setTypeString(getRandomLocalizedWords(pathname, 10)));
-    dispatch(resetEnteredString());
-    setSymbolCount(0);
-    setMistakeCount(0);
-    if (mainInput && mainInput.current) {
-      mainInput.current.focus();
+const Keyboard = ({ path, symbol }: Props) => {
+  function checkLetter(letter: string, place: string): boolean {
+    switch (place) {
+      case 'key':
+        return letter === symbol || letter.toUpperCase() === symbol;
+      case 'shift':
+        return /[A-Z]/g.test(letter);
+      case 'space':
+        return letter === ' ';
+      default:
+        return false;
     }
   }
 
   return (
-    <div className={s.container}>
-      <div className={s.head}>
-        <div className={s.homeBtn} onClick={handleClickHome}>
-          {pathname === '/eng' ? 'Home' : 'На главную'}
-        </div>
-        <div className={s.newStringBtn} onClick={handleGetNewString}>
-          {pathname === '/eng' ? 'Get new string' : 'Получить новую строку'}
-        </div>
-        {/* <div className={s.timer}>{`0${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</div> */}
-      </div>
-      <div className={s.keyboardWrapper}>
-        <input autoFocus className={s.mainInput} value={enteredStringState} ref={mainInput} onChange={(e) => handleChangeValue(e.target.value)} />
-        <div className={s.typeString}>{typeStringState}</div>
-        <div className={s.keyboard}>
-          {letters.map((value, index) => {
-            return <Key letter={value} key={index} activeLetter={activeSymbol} />;
+    <div className={s.keyboard}>
+      {path === '/eng'
+        ? numbers[0].map((value, index) => {
+            return (
+              <div key={index} className={cn(s.key, { [s.active]: checkLetter(value, 'key') })}>
+                {value}
+              </div>
+            );
+          })
+        : numbers[1].map((value, index) => {
+            return (
+              <div key={index} className={cn(s.key, { [s.active]: checkLetter(value, 'key') })}>
+                {value}
+              </div>
+            );
           })}
-        </div>
-        <div className={s.foot}>
-          <div className={cn({ [s.mistakeCountGood]: mistakeCount === 0 }, { [s.mistakeCountPoor]: mistakeCount > 0 })}>{`${
-            pathname === '/eng' ? 'Mistakes' : 'Ошибки'
-          }: ${mistakeCount}`}</div>
-          {/* <div className={s.themeChangeBtn}>{'Light theme'}</div> */}
-        </div>
-      </div>
+      <div className={cn(s.key, s.delete)}>Delete</div>
+      <div className={cn(s.key, s.tab)}>Tab</div>
+      {path === '/eng'
+        ? engLetters[0].map((value, index) => {
+            return (
+              <div key={index} className={cn(s.key, { [s.active]: checkLetter(value, 'key') })}>
+                {value}
+              </div>
+            );
+          })
+        : rusLetters[0].map((value, index) => {
+            return (
+              <div key={index} className={cn(s.key, { [s.active]: checkLetter(value, 'key') })}>
+                {value}
+              </div>
+            );
+          })}
+      <div className={cn(s.key, s.backslash, { [s.active]: symbol === '\\' })}>\</div>
+      <div className={cn(s.key, s.capslock)}>CapsLock</div>
+      {path === '/eng'
+        ? engLetters[1].map((value, index) => {
+            return (
+              <div key={index} className={cn(s.key, { [s.active]: checkLetter(value, 'key') })}>
+                {value}
+              </div>
+            );
+          })
+        : rusLetters[1].map((value, index) => {
+            return (
+              <div key={index} className={cn(s.key, { [s.active]: checkLetter(value, 'key') })}>
+                {value}
+              </div>
+            );
+          })}
+      <div className={cn(s.key, s.return)}>Return</div>
+      <div className={cn(s.key, s.leftshift, { [s.active]: checkLetter(symbol, 'shift') })}>Shift</div>
+      {path === '/eng'
+        ? engLetters[2].map((value, index) => {
+            return (
+              <div key={index} className={cn(s.key, { [s.active]: checkLetter(value, 'key') })}>
+                {value}
+              </div>
+            );
+          })
+        : rusLetters[2].map((value, index) => {
+            return (
+              <div key={index} className={cn(s.key, { [s.active]: checkLetter(value, 'key') })}>
+                {value}
+              </div>
+            );
+          })}
+
+      <div className={cn(s.key, s.rightshift, { [s.active]: checkLetter(symbol, 'shift') })}>Shift</div>
+      <div className={cn(s.key, s.leftctrl)}>ctrl</div>
+      <div className={s.key}>Alt</div>
+      <div className={cn(s.key, s.command)}>command</div>
+      <div className={cn(s.key, s.space, { [s.active]: checkLetter(symbol, 'space') })}>Space</div>
+      <div className={cn(s.key, s.command)}>command</div>
+      <div className={s.key}>Alt</div>
+      <div className={s.key}>Ctrl</div>
+      <div className={s.key}>Fn</div>
     </div>
   );
 };
