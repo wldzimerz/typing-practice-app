@@ -4,10 +4,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import cn from 'classnames';
 import { getRandomLocalizedWords } from '../../services/faker-words';
 import { enteredString, setTypeString, setEnteredString, typeString, resetEnteredString } from '../../store/typeStringSlice';
+import { setResults } from '../../store/resultsSlice';
+import Keyboard from '../keyboard/Keyboard';
 
 import s from './TypingScreen.module.scss';
-import Keyboard from '../Keyboard/Keyboard';
-import { setResults } from '../../store/resultsSlice';
 
 const TypingScreen = () => {
   let [symbolCount, setSymbolCount] = useState(0);
