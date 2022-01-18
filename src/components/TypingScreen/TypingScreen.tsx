@@ -7,10 +7,12 @@ import { enteredString, setTypeString, setEnteredString, typeString, resetEntere
 
 import s from './TypingScreen.module.scss';
 import Keyboard from '../Keyboard/Keyboard';
+import { setResults } from '../../store/resultsSlice';
 
 const TypingScreen = () => {
   let [symbolCount, setSymbolCount] = useState(0);
   let [mistakeCount, setMistakeCount] = useState(0);
+  let [statisticsValue, setStatistics] = useState(0);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -27,16 +29,12 @@ const TypingScreen = () => {
     dispatch(resetEnteredString());
   }, [pathname, dispatch]);
 
-  function handleClickHome() {
-    navigate('/');
-  }
-
   function handleChangeValue(value: string) {
     const symbol = value.slice(-1);
-
+    getStatistics();
     if (typeStringState && enteredStringState.length === typeStringState.length) {
-      alert(`Stop typing! You made ${mistakeCount} mistakes`);
-      handleGetNewString();
+      dispatch(setResults({ mistakes: mistakeCount, statistics: statisticsValue, language: pathname }));
+      navigate('/finish');
     } else if (symbol === activeSymbol) {
       dispatch(setEnteredString(symbol));
       setSymbolCount((prevState) => ++prevState);
@@ -50,6 +48,7 @@ const TypingScreen = () => {
     dispatch(resetEnteredString());
     setSymbolCount(0);
     setMistakeCount(0);
+    setStatistics(0);
     if (mainInput && mainInput.current) {
       mainInput.current.focus();
     }
@@ -58,25 +57,25 @@ const TypingScreen = () => {
   function getStatistics() {
     const totalPercentage = 100;
     const value = totalPercentage - (mistakeCount / enteredStringState.length) * 100;
-    if (!mistakeCount) {
-      return totalPercentage;
-    } else if (mistakeCount) {
-      return value.toFixed(1);
-    } else if (value <= 0 && enteredStringState.length === 0) {
-      return 0;
+
+    if (mistakeCount < 0 && enteredStringState.length === 0) {
+      setStatistics(totalPercentage);
+    } else if (value <= 0 || !value) {
+      setStatistics(0);
+    } else if (mistakeCount >= 0) {
+      setStatistics(Math.floor(value));
     }
   }
 
   return (
     <div className={s.container}>
       <div className={s.head}>
-        <div className={s.homeBtn} onClick={handleClickHome}>
+        <div className={s.homeBtn} onClick={() => navigate('/')}>
           {pathname === '/eng' ? 'Home' : 'На главную'}
         </div>
         <div className={s.newStringBtn} onClick={handleGetNewString}>
           {pathname === '/eng' ? 'Get new string' : 'Получить новую строку'}
         </div>
-        {/* <div className={s.timer}>{`0${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}</div> */}
       </div>
       <div className={s.keyboardWrapper}>
         <input autoFocus className={s.mainInput} value={enteredStringState} ref={mainInput} onChange={(e) => handleChangeValue(e.target.value)} />
@@ -88,7 +87,7 @@ const TypingScreen = () => {
           <div className={cn({ [s.mistakeCountGood]: mistakeCount === 0 }, { [s.mistakeCountPoor]: mistakeCount > 0 })}>{`${
             pathname === '/eng' ? 'Mistakes' : 'Ошибки'
           }: ${mistakeCount}`}</div>
-          <div className={s.stats}>{`${pathname === '/eng' ? 'Statistics' : 'Статистика'}: ${getStatistics()}%`}</div>
+          <div className={s.stats}>{`${pathname === '/eng' ? 'Statistics' : 'Статистика'}: ${statisticsValue}%`}</div>
           <div className={s.themeChangeBtn}>{'Light theme'}</div>
         </div>
       </div>

@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import typeStringReducer from './typeStringSlice';
+import resultsSliceReducer from './resultsSlice';
 
 export const store = configureStore({
   reducer: {
     typeString: typeStringReducer,
+    results: resultsSliceReducer,
   },
 });
 

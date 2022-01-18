@@ -86,7 +86,7 @@ const Keyboard = ({ path, symbol }: Props) => {
               </div>
             );
           })}
-      <div className={cn(s.key, s.return)}>Return</div>
+      <div className={cn(s.key, s.return)}>Enter</div>
       <div className={cn(s.key, s.leftshift, { [s.active]: checkLetter(symbol, 'shift') })}>Shift</div>
       {path === '/eng'
         ? engLetters[2].map((value, index) => {
