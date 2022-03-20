@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
+import s from './style.module.scss';
 
-import s from './StartScreen.module.scss';
-
-const StartScreen = () => {
+export const StartScreen = () => {
   const navigate = useNavigate();
 
-  function handleSubmitLanguage(values: { lang: string }) {
+  function handleSubmitLanguage(values: { lang: string }): void {
     switch (values.lang) {
       case 'English':
         return navigate('/eng');
@@ -24,22 +23,20 @@ const StartScreen = () => {
         initialValues={{
           lang: '',
         }}
-        onSubmit={(values) => {
-          handleSubmitLanguage(values);
-        }}
+        onSubmit={(values) => handleSubmitLanguage(values)}
       >
         {({ values }) => (
           <Form>
-            <div id="my-radio-group">Select language</div>
-            <div role="group" aria-labelledby="my-radio-group" className={s.languages}>
-              <Field type="radio" name="lang" id="eng" value="English" />
-              <label htmlFor="eng">English</label>
-              <Field type="radio" name="lang" id="rus" value="Russian" />
-              <label htmlFor="rus">Russian</label>
+            <div id='lang-radio-group'>Select language</div>
+            <div role='group' aria-labelledby='lang-radio-group' className={s.languages}>
+              <Field type='radio' name='lang' id='eng' value='English' />
+              <label htmlFor='eng'>English</label>
+              <Field type='radio' name='lang' id='rus' value='Russian' />
+              <label htmlFor='rus'>Russian</label>
               <div>Picked: {values.lang}</div>
             </div>
 
-            <button type="submit" disabled={!values.lang} className={s.startBtn}>
+            <button type='submit' disabled={!values.lang} className={s.startBtn}>
               Start
             </button>
           </Form>
@@ -48,5 +45,3 @@ const StartScreen = () => {
     </div>
   );
 };
-
-export default StartScreen;

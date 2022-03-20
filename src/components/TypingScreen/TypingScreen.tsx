@@ -1,18 +1,19 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import cn from 'classnames';
-import { getRandomLocalizedWords } from '../../services/faker-words';
-import { enteredString, setTypeString, setEnteredString, typeString, resetEnteredString } from '../../store/typeStringSlice';
-import { setResults } from '../../store/resultsSlice';
-import Keyboard from '../keyboard/Keyboard';
+import { getRandomLocalizedWords } from '../../services/';
+import { Keyboard } from '../';
+import s from './style.module.scss';
+import { enteredString, resetEnteredString, setEnteredString, setResults, setTypeString, typeString } from '../../store';
 
-import s from './TypingScreen.module.scss';
+// TODO: add user SPM to statisctics
+// TODO: light theme toggler
 
-const TypingScreen = () => {
-  let [symbolCount, setSymbolCount] = useState(0);
-  let [mistakeCount, setMistakeCount] = useState(0);
-  let [statisticsValue, setStatistics] = useState(0);
+export const TypingScreen = () => {
+  let [symbolCount, setSymbolCount] = useState<number>(0);
+  let [mistakeCount, setMistakeCount] = useState<number>(0);
+  let [statisticsValue, setStatistics] = useState<number>(0);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -24,15 +25,10 @@ const TypingScreen = () => {
   let activeSymbol: string = '';
   if (typeStringState) activeSymbol = typeStringState[symbolCount];
 
-  useEffect(() => {
-    dispatch(setTypeString(getRandomLocalizedWords(pathname, 10)));
-    dispatch(resetEnteredString());
-  }, [pathname, dispatch]);
-
-  function handleChangeValue(value: string) {
+  const handleChangeValue = (value: string): void => {
     const symbol = value.slice(-1);
     getStatistics();
-    if (typeStringState && enteredStringState.length === typeStringState.length) {
+    if (typeStringState && enteredStringState.length === typeStringState.length - 1) {
       dispatch(setResults({ mistakes: mistakeCount, statistics: statisticsValue, language: pathname }));
       navigate('/finish');
     } else if (symbol === activeSymbol) {
@@ -41,9 +37,9 @@ const TypingScreen = () => {
     } else {
       setMistakeCount((prevState) => ++prevState);
     }
-  }
+  };
 
-  function handleGetNewString() {
+  function handleGetNewString(): void {
     dispatch(setTypeString(getRandomLocalizedWords(pathname, 10)));
     dispatch(resetEnteredString());
     setSymbolCount(0);
@@ -54,7 +50,7 @@ const TypingScreen = () => {
     }
   }
 
-  function getStatistics() {
+  function getStatistics(): void {
     const totalPercentage = 100;
     const value = totalPercentage - (mistakeCount / enteredStringState.length) * 100;
 
@@ -66,6 +62,11 @@ const TypingScreen = () => {
       setStatistics(Math.floor(value));
     }
   }
+
+  useEffect(() => {
+    dispatch(setTypeString(getRandomLocalizedWords(pathname, 10)));
+    dispatch(resetEnteredString());
+  }, [pathname, dispatch]);
 
   return (
     <div className={s.container}>
@@ -88,11 +89,9 @@ const TypingScreen = () => {
             pathname === '/eng' ? 'Mistakes' : 'Ошибки'
           }: ${mistakeCount}`}</div>
           <div className={s.stats}>{`${pathname === '/eng' ? 'Statistics' : 'Статистика'}: ${statisticsValue}%`}</div>
-          <div className={s.themeChangeBtn}>{'Light theme'}</div>
+          {/* <div className={s.themeChangeBtn}>{'Light theme'}</div> */}
         </div>
       </div>
     </div>
   );
 };
-
-export default TypingScreen;

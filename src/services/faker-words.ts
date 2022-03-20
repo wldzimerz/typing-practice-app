@@ -8,5 +8,3 @@ export function getRandomLocalizedWords(localization: string, number: number): s
     return fakerRus.lorem.words(number);
   }
 }
-
-// console.log(faker);

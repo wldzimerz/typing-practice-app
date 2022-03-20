@@ -1,4 +1,4 @@
-import s from './Keyboard.module.scss';
+import s from './style.module.scss';
 import cn from 'classnames';
 
 const engLetters = [
@@ -21,7 +21,7 @@ type Props = {
   symbol: string;
 };
 
-const Keyboard = ({ path, symbol }: Props) => {
+export const Keyboard = ({ path, symbol }: Props) => {
   function checkLetter(letter: string, place: string): boolean {
     switch (place) {
       case 'key':
@@ -116,5 +116,3 @@ const Keyboard = ({ path, symbol }: Props) => {
     </div>
   );
 };
-
-export default Keyboard;

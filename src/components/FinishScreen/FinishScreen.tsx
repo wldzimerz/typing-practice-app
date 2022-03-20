@@ -1,29 +1,29 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
-import { results } from '../../store/resultsSlice';
+import { results } from '../../store';
+import s from './style.module.scss';
 
-import s from './FinishScreen.module.scss';
+// TODO: add user SPM to statisctics
 
-const FinishScreen = () => {
+export const FinishScreen = () => {
   const navigate = useNavigate();
 
-  const resultsValue = useAppSelector(results);
+  const { mistakes, statistics, language } = useAppSelector(results);
 
   return (
     <div className={s.container}>
       <div className={s.heading}>Congratulations!</div>
       <div className={s.resultsWrap}>
         Your results:
-        <div>Mistakes: {resultsValue.mistakes}</div>
-        <div>Statistics: {resultsValue.statistics}%</div>
-        <div>Speed: {'resultsValue.speed'} SPM</div> <div>{`Language: ${`${resultsValue.language === '/eng' ? 'English' : 'Russian'}`}`}</div>
+        <div>Mistakes: {mistakes}</div>
+        <div>Statistics: {statistics}%</div>
+        {/* <div>Speed: {'resultsValue.speed'} SPM</div> */}
+        <div>{`Language: ${`${language === '/eng' ? 'English' : 'Russian'}`}`}</div>
       </div>
       <div className={s.buttons}>
         <button onClick={() => navigate('/')}>Home</button>
-        <button onClick={() => navigate(`${resultsValue.language}`)}>Try again</button>
+        <button onClick={() => navigate(`${language}`)}>Try again</button>
       </div>
     </div>
   );
 };
-
-export default FinishScreen;
