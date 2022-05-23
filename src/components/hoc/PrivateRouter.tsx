@@ -1,17 +1,15 @@
 import { Navigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
-import { results } from '../../store/resultsSlice';
+import { useSelector } from 'react-redux';
+import { AppSelectors } from 'src/store';
 
-type Props = {
-  children: JSX.Element;
-};
+export const FinishPrivateRouter: React.FC = ({ children }) => {
+  const { language, mistakes, statistics } = useSelector(
+    AppSelectors.resultsSelector
+  );
 
-export const FinishPrivateRouter = ({ children }: Props) => {
-  const resultsValue = useAppSelector(results);
-
-  if (resultsValue.language === '' && resultsValue.mistakes === 0 && resultsValue.statistics === 100) {
+  if (!language && mistakes === 0 && statistics === 100) {
     return <Navigate to='/' />;
   }
 
-  return children;
+  return <>{children}</>;
 };

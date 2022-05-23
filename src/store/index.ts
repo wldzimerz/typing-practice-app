@@ -14,3 +14,4 @@ export type AppDispatch = typeof store.dispatch;
 
 export * from './resultsSlice';
 export * from './typeStringSlice';
+export * as AppSelectors from './selectors';

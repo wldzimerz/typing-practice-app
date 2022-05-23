@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './index';
 
 interface typeStringState {
   value: string | undefined;
@@ -27,9 +26,7 @@ export const typeStringSlice = createSlice({
   },
 });
 
-export const { setTypeString, setEnteredString, resetEnteredString } = typeStringSlice.actions;
-
-export const typeString = (state: RootState) => state.typeString.value;
-export const enteredString = (state: RootState) => state.typeString.enteredStringValue;
+export const { setTypeString, setEnteredString, resetEnteredString } =
+  typeStringSlice.actions;
 
 export default typeStringSlice.reducer;

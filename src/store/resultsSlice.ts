@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '.';
 
 type Results = {
   mistakes?: number;
@@ -30,7 +29,5 @@ export const resultsSlice = createSlice({
 });
 
 export const { setResults } = resultsSlice.actions;
-
-export const results = (state: RootState) => state.results.value;
 
 export default resultsSlice.reducer;

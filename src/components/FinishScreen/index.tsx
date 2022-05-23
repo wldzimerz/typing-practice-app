@@ -1,14 +1,16 @@
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks';
-import { results } from '../../store';
+import { AppSelectors } from 'src/store';
 import s from './style.module.scss';
 
 // TODO: add user SPM to statisctics
 
-export const FinishScreen = () => {
+const FinishScreen: React.FC = () => {
   const navigate = useNavigate();
 
-  const { mistakes, statistics, language } = useAppSelector(results);
+  const { mistakes, statistics, language } = useSelector(
+    AppSelectors.resultsSelector
+  );
 
   return (
     <div className={s.container}>
@@ -18,7 +20,9 @@ export const FinishScreen = () => {
         <div>Mistakes: {mistakes}</div>
         <div>Statistics: {statistics}%</div>
         {/* <div>Speed: {'resultsValue.speed'} SPM</div> */}
-        <div>{`Language: ${`${language === '/eng' ? 'English' : 'Russian'}`}`}</div>
+        <div>{`Language: ${`${
+          language === '/eng' ? 'English' : 'Russian'
+        }`}`}</div>
       </div>
       <div className={s.buttons}>
         <button onClick={() => navigate('/')}>Home</button>
@@ -27,3 +31,5 @@ export const FinishScreen = () => {
     </div>
   );
 };
+
+export default FinishScreen;

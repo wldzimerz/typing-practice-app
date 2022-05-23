@@ -14,16 +14,8 @@
 
 .languages {
   display: block;
-  input[type='radio'] {
-    opacity: 0;
-    margin: 45px 0;
-    &:checked + label {
-      background: #e8e8e8e6;
-      color: #30353e;
-      box-shadow: none;
-    }
-  }
-  label {
+  margin: 45px 0;
+  span {
     font-family: 'Sanchez', serif;
     user-select: none;
     border: $border;
@@ -37,6 +29,12 @@
       box-shadow: none;
     }
   }
+}
+
+span.checked {
+  background: #e8e8e8e6;
+  color: #30353e;
+  box-shadow: none;
 }
 
 .startBtn {
