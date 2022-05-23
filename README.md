@@ -9,7 +9,7 @@ In the development used:
 - Redux Toolkit
 - Formik
 
->![Start screen](screenshots/start-screen.png "Start screen")
+>![Start screen](screenshots/main-screen.png "Start screen")
 
 >![Typing screen](screenshots/typing-screen.png "Typing screen")
 
